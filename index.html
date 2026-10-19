@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ESAXEN | Official Shoes Store</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--orange:#f0442b;--dark:#202124;--bg:#f3f4f6}
+body{font-family:Arial,sans-serif;background:var(--bg);color:#292d35}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+.topbar{background:var(--orange);color:white;padding:12px 4%;display:flex;justify-content:space-between;gap:10px;font-size:13px}
+header{background:var(--orange);color:white;padding:18px 4%;display:flex;align-items:center;justify-content:space-between;gap:15px;position:sticky;top:0;z-index:5;box-shadow:0 3px 10px #0002}
+.logo{font-size:29px;font-weight:900;font-style:italic;white-space:nowrap}
+.search{display:flex;flex:1;max-width:430px;background:white;border-radius:7px;overflow:hidden}
+.search input{width:100%;min-width:0;padding:12px;border:0;outline:0}
+.search button{background:#222;color:white;border:0;padding:10px 17px}
+.cart{background:white;color:var(--orange);border:0;border-radius:7px;padding:11px;font-weight:bold}
+.container{max-width:1200px;margin:auto;padding:25px 20px}
+.hero{padding:42px;border-radius:15px;color:white;background:linear-gradient(90deg,#08090df2,#08090d66),url('https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=1400&q=85') center/cover;min-height:350px;display:flex;align-items:center}
+.hero-content{max-width:560px}
+.promo{display:inline-block;background:var(--orange);padding:9px 14px;border-radius:5px;font-weight:bold;margin-bottom:17px}
+.hero h1{font-size:clamp(30px,5vw,46px);line-height:1.2;margin-bottom:15px}
+.hero p{line-height:1.7;color:#eee}
+.btn{padding:13px 20px;border:0;border-radius:6px;font-weight:bold;margin-top:20px}
+.primary{background:var(--orange);color:white}
+.darkbtn{background:#333;color:white;margin-left:7px}
+.section{background:white;padding:23px;border-radius:12px;margin-top:25px;box-shadow:0 2px 8px #0000000a}
+.heading{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.categories{display:flex;gap:9px;flex-wrap:wrap;margin-top:20px}
+.category{padding:11px 19px;border:1px solid #ddd;border-radius:25px;background:#f4f4f5}
+.category.active{background:var(--orange);color:white;border-color:var(--orange)}
+.results{display:flex;justify-content:space-between;margin:30px 4px 18px;color:#666;gap:10px}
+.results strong{color:var(--orange)}
+.products{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:17px}
+.product{background:white;border:1px solid #ddd;border-radius:9px;overflow:hidden;transition:.2s}
+.product:hover{transform:translateY(-3px);box-shadow:0 7px 18px #0001}
+.product-image{height:205px;position:relative;background:#eee}
+.product-image img{width:100%;height:100%;object-fit:cover}
+.discount{position:absolute;top:0;right:0;background:var(--orange);color:white;padding:8px;font-weight:bold;font-size:12px}
+.official{position:absolute;bottom:10px;left:10px;background:#222c;color:white;padding:6px 9px;border-radius:4px;font-size:11px}
+.info{padding:13px}
+.info h3{font-size:15px;line-height:1.5;min-height:45px;font-weight:500}
+.old{color:#999;text-decoration:line-through;font-size:13px;margin-top:10px}
+.price{font-size:20px;color:var(--orange);font-weight:bold;margin-top:5px}
+.rating{font-size:12px;color:#d7a900;margin:12px 0}
+.rating span{color:#777}
+.size-label{font-size:12px;font-weight:bold;display:block;margin-bottom:6px}
+.size-select{width:100%;padding:9px;border:1px solid #ddd;border-radius:5px;background:white;margin-bottom:10px}
+.actions{display:flex;gap:6px}
+.add,.buy{padding:10px 6px;border-radius:5px;font-weight:bold}
+.add{background:white;border:1px solid var(--orange);color:var(--orange)}
+.buy{flex:1;background:var(--orange);color:white;border:0}
+.modal{display:none;position:fixed;inset:0;background:#0009;z-index:20;overflow-y:auto;padding:20px}
+.modal.show{display:flex;align-items:flex-start;justify-content:center}
+.modal-content{background:white;width:100%;max-width:620px;border-radius:13px;padding:23px;margin:auto;position:relative}
+.close{float:right;background:#eee;border:0;border-radius:50%;width:32px;height:32px;font-size:19px}
+.modal h2{font-size:23px;margin:8px 0 18px}
+.cart-item{display:flex;justify-content:space-between;align-items:center;gap:10px;border-bottom:1px solid #eee;padding:13px 0}
+.cart-item p{font-size:14px;line-height:1.7}
+.remove{background:#fff0ed;color:var(--orange);border:0;border-radius:5px;padding:8px}
+.qty{display:flex;gap:7px;align-items:center;margin-top:5px}
+.qty button{width:25px;height:25px;border:1px solid #ddd;background:white;border-radius:4px}
+.summary{background:#f6f6f7;border-radius:8px;padding:15px;margin:16px 0;line-height:2}
+.summary div{display:flex;justify-content:space-between;gap:10px}
+.summary .total{border-top:1px solid #ddd;margin-top:6px;padding-top:7px;font-weight:bold;font-size:18px;color:var(--orange)}
+.field{margin-bottom:14px}
+.field label{display:block;font-weight:bold;font-size:14px;margin-bottom:7px}
+.field input,.field textarea,.field select{width:100%;padding:12px;border:1px solid #d8d8d8;border-radius:6px;background:white}
+.field textarea{min-height:75px;resize:vertical}
+.payment-options{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.payment-option{border:1px solid #ddd;border-radius:7px;padding:13px;display:flex;gap:8px;align-items:center;font-size:14px}
+.payment-option:has(input:checked){border:2px solid var(--orange);background:#fff6f3}
+.full{width:100%;padding:14px;background:var(--orange);color:white;border:0;border-radius:7px;font-weight:bold;margin-top:10px}
+.note{background:#fff5d9;color:#795b0a;padding:12px;border-radius:7px;font-size:13px;line-height:1.6;margin:12px 0}
+.success{text-align:center;padding:15px 0}
+.success-icon{font-size:48px;margin-bottom:12px}
+.success p{line-height:1.7;margin:10px 0}
+footer{margin-top:40px;background:#202124;color:white;text-align:center;padding:32px 15px}
+footer p{color:#ccc;line-height:1.8;margin-top:9px}
+.empty{text-align:center;padding:30px;color:#777}
+@media(max-width:900px){.products{grid-template-columns:repeat(2,minmax(0,1fr))}.product-image{height:210px}}
+@media(max-width:520px){
+.topbar{font-size:10px;padding:10px;gap:6px}
+header{padding:13px 10px;gap:8px}
+.logo{font-size:20px}
+.search input{padding:9px 5px;font-size:12px}
+.search button{padding:8px}
+.cart{padding:9px;font-size:12px}
+.container{padding:16px 11px}
+.hero{padding:24px 18px;min-height:340px}
+.hero h1{font-size:30px}
+.hero p{font-size:14px}
+.btn{padding:11px 12px;font-size:12px}
+.section{padding:15px 12px}
+.products{gap:10px}
+.product-image{height:155px}
+.info{padding:9px}
+.info h3{font-size:13px;min-height:55px}
+.price{font-size:17px}
+.old,.rating{font-size:10px}
+.add,.buy{font-size:12px;padding:9px 4px}
+.modal{padding:9px}
+.modal-content{padding:17px}
+.payment-options{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+<span>🏬 Official Store<br>ESAXEN</span>
+<span>🔔 Notifikasi</span>
+<span>❔ Bantuan</span>
+<span>👤 Pembeli ESAXEN</span>
+</div>
+
+<header>
+<div class="logo">▲ ESAXEN</div>
+<div class="search">
+<input id="search" placeholder="Cari sepatu..." oninput="renderProducts()">
+<button onclick="renderProducts()">⌕</button>
+</div>
+<button class="cart" onclick="openCart()">🛒 <span id="cartCount">0</span></button>
+</header>
+
+<main class="container">
+<section class="hero">
+<div class="hero-content">
+<span class="promo">PROMO CASUAL XTRA</span>
+<h1>KOLEKSI SEPATU<br>CLASSIC & CASUAL</h1>
+<p>Temukan gaya terbaikmu bersama ESAXEN. Pilihan sepatu keren untuk setiap langkahmu!</p>
+<button class="btn primary" onclick="document.getElementById('produk').scrollIntoView({behavior:'smooth'})">Beli Sekarang</button>
+<button class="btn darkbtn" onclick="filter('Semua')">Lihat Koleksi</button>
+</div>
+</section>
+
+<section class="section">
+<div class="heading">
+<h2>☷ KATEGORI PRODUK</h2>
+<select id="sort" onchange="renderProducts()" style="padding:10px;border:1px solid #ddd;border-radius:6px">
+<option value="popular">Paling Populer</option>
+<option value="low">Harga Terendah</option>
+<option value="high">Harga Tertinggi</option>
+</select>
+</div>
+<div class="categories">
+<button class="category active" onclick="filter('Semua',this)">Semua</button>
+<button class="category" onclick="filter('Samba',this)">Samba</button>
+<button class="category" onclick="filter('Gazelle',this)">Gazelle</button>
+<button class="category" onclick="filter('Sneakers',this)">Sneakers</button>
+<button class="category" onclick="filter('Campus',this)">Campus</button>
+<button class="category" onclick="filter('Running',this)">Running</button>
+</div>
+</section>
+
+<div id="produk">
+<div class="results">
+<div>Menampilkan sepatu untuk:<br><strong id="current">Semua</strong></div>
+<div id="count">8 Produk</div>
+</div>
+<div class="products" id="grid"></div>
+<div class="empty" id="empty" hidden>Produk tidak ditemukan.</div>
+</div>
+</main>
+
+<footer>
+<div class="logo">ESAXEN</div>
+<p>Step Into Your Style.</p>
+<p>Toko sepatu casual untuk gaya sehari-hari.</p>
+<p>© 2026 ESAXEN Official Store</p>
+</footer>
+
+<!-- KERANJANG -->
+<div class="modal" id="cartModal">
+<div class="modal-content">
+<button class="close" onclick="closeModal('cartModal')">×</button>
+<h2>🛒 Keranjang Belanja</h2>
+<div id="cartItems"></div>
+<div class="summary" id="cartSummary"></div>
+<button class="full" onclick="checkout()">Lanjut ke Checkout →</button>
+</div>
+</div>
+
+<!-- CHECKOUT -->
+<div class="modal" id="checkoutModal">
+<div class="modal-content">
+<button class="close" onclick="closeModal('checkoutModal')">×</button>
+<h2>📦 Checkout Pesanan</h2>
+<form id="checkoutForm">
+<div class="field">
+<label>Nama lengkap</label>
+<input id="customerName" required placeholder="Masukkan nama kamu">
+</div>
+<div class="field">
+<label>Nomor HP / WhatsApp</label>
+<input id="phone" type="tel" required placeholder="08xxxxxxxxxx">
+</div>
+<div class="field">
+<label>Alamat lengkap</label>
+<textarea id="address" required placeholder="Nama jalan, nomor rumah, kelurahan, kota, kode pos"></textarea>
+</div>
+<div class="field">
+<label>Catatan pesanan (opsional)</label>
+<input id="notes" placeholder="Contoh: warna favorit">
+</div>
+
+<h3 style="margin-bottom:12px">Metode Pembayaran</h3>
+<div class="payment-options">
+<label class="payment-option"><input type="radio" name="payment" value="Transfer Bank BCA" required> 🏦 Transfer Bank</label>
+<label class="payment-option"><input type="radio" name="payment" value="DANA"> 💙 DANA</label>
+<label class="payment-option"><input type="radio" name="payment" value="GoPay"> 💚 GoPay</label>
+<label class="payment-option"><input type="radio" name="payment" value="COD"> 🚚 COD / Bayar di Tempat</label>
+</div>
+
+<div class="note" id="paymentNote">Pilih metode pembayaran yang kamu inginkan. Ini adalah simulasi checkout.</div>
+<div class="summary" id="checkoutSummary"></div>
+<button class="full" type="submit">Buat Pesanan Sekarang</button>
+</form>
+</div>
+</div>
+
+<!-- KONFIRMASI -->
+<div class="modal" id="successModal">
+<div class="modal-content">
+<button class="close" onclick="closeModal('successModal')">×</button>
+<div class="success">
+<div class="success-icon">✅</div>
+<h2>Pesanan Berhasil Dibuat!</h2>
+<p id="orderDetails"></p>
+<div class="note">Demo tugas sekolah: pesanan hanya tersimpan selama halaman ini digunakan. Belum ada pembayaran uang sungguhan, pengiriman, atau konfirmasi otomatis dari bank/e-wallet.</div>
+<button class="full" onclick="finishOrder()">Kembali Belanja</button>
+</div>
+</div>
+</div>
+
+<script>
+const products = [
+{name:"kets adidas Runvista",cat:"Sneakers",price:1599000,old:1899000,rating:4.9,sold:"1.2rb+",img:"https://i.ibb.co.com/CsnW4cF8/IMG-1000320743.jpg"},
+{name:"Adidas Spezial",cat:"Campus",price:1799000,old:899000,rating:4.8,sold:"980+",img:"https://i.ibb.co.com/Pzt446ns/IMG-20261016-WA0053.jpg"},
+{name:"Adidas Adizero Adios Pro",cat:"Running",price:1299000,old:1530000,rating:4.9,sold:"870+",img:"https://i.ibb.co.com/mrcVLSmt/IMG-1000320710.jpg"},
+{name:"Adidas Superstar II Papua",cat:"Sneakers",price:2999000,old:3049000,rating:4.7,sold:"760+",img:"https://i.ibb.co.com/SwByPZfB/IMG-1000320747.jpg"},
+{name:"Adidas Bad Bunny Gazelle Indoor ",cat:"Gazelle",price:2499000,old:3799000,rating:4.8,sold:"650+",img:"https://i.ibb.co.com/Tq8gQGnw/IMG-1000320711.jpg"},
+{name:"White Everyday Sneakers",cat:"Sneakers",price:1520000,old:2499000,rating:4.8,sold:"590+",img:"https://i.ibb.co.com/gMncqVS5/IMG-1000320749.jpg"},
+{name:"Adidas X COCA-COLA Samba OG ",cat:"Samba",price:2300000,old:3999000,rating:4.9,sold:"530+",img:"https://i.ibb.co.com/Ps2BvPrQ/IMG-20261016-WA0049.jpg"},
+{name:"adidas Adizero Evo SL Powder Plum Zero Metalic (Women's) - JS4447 - US",cat:"Running",price:2500000,old:3250000,rating:4.7,sold:"420+",img:"https://i.ibb.co.com/Ng6tNvky/IMG-1000320745.jpg"}
+];
+
+let category="Semua";
+let cart=[];
+const shipping=15000;
+const rupiah=n=>"Rp "+n.toLocaleString("id-ID");
+
+function renderProducts(){
+ let q=document.getElementById("search").value.toLowerCase();
+ let list=products.map((p,i)=>({...p,index:i})).filter(p=>
+  (category==="Semua"||p.cat===category)&&p.name.toLowerCase().includes(q)
+ );
+ let sort=document.getElementById("sort").value;
+ if(sort==="low")list.sort((a,b)=>a.price-b.price);
+ if(sort==="high")list.sort((a,b)=>b.price-a.price);
+ document.getElementById("current").textContent=category;
+ document.getElementById("count").textContent=list.length+" Produk";
+ document.getElementById("empty").hidden=list.length>0;
+
+ document.getElementById("grid").innerHTML=list.map(p=>`
+ <article class="product">
+  <div class="product-image">
+   <img src="${p.img}" alt="${p.name}" loading="lazy">
+   <span class="discount">${Math.round((1-p.price/p.old)*100)}% OFF</span>
+   <span class="official">★ Official Store</span>
+  </div>
+  <div class="info">
+   <h3>${p.name}</h3>
+   <div class="old">${rupiah(p.old)}</div>
+   <div class="price">${rupiah(p.price)}</div>
+   <div class="rating">★ ${p.rating} <span>| Terjual ${p.sold}</span></div>
+   <label class="size-label" for="size${p.index}">Pilih Ukuran Sepatu</label>
+   <select class="size-select" id="size${p.index}">
+    <option value="">Pilih ukuran</option>
+    ${[36,37,38,39,40,41,42,43,44,45].map(s=>`<option value="${s}">${s}</option>`).join("")}
+   </select>
+   <div class="actions">
+    <button class="add" onclick="addCart(${p.index})">🛒</button>
+    <button class="buy" onclick="buyNow(${p.index})">Beli</button>
+   </div>
+  </div>
+ </article>`).join("");
+}
+
+function filter(cat,btn){
+ category=cat;
+ document.querySelectorAll(".category").forEach(b=>b.classList.remove("active"));
+ if(btn)btn.classList.add("active");
+ else document.querySelectorAll(".category").forEach(b=>{if(b.textContent.trim()===cat)b.classList.add("active")});
+ renderProducts();
+ document.getElementById("produk").scrollIntoView({behavior:"smooth"});
+}
+
+function addCart(i){
+ let size=document.getElementById("size"+i).value;
+ if(!size){alert("Pilih ukuran sepatu terlebih dahulu, ya!");return}
+ let existing=cart.find(x=>x.index===i&&x.size===size);
+ if(existing)existing.qty++;
+ else cart.push({index:i,size,qty:1});
+ updateCart();
+ alert(products[i].name+" ukuran "+size+" berhasil ditambahkan ke keranjang!");
+}
+
+function buyNow(i){
+ let size=document.getElementById("size"+i).value;
+ if(!size){alert("Pilih ukuran sepatu terlebih dahulu, ya!");return}
+ let existing=cart.find(x=>x.index===i&&x.size===size);
+ if(existing)existing.qty++;
+ else cart.push({index:i,size,qty:1});
+ updateCart();
+ openCart();
+}
+
+function updateCart(){
+ document.getElementById("cartCount").textContent=cart.reduce((s,x)=>s+x.qty,0);
+}
+
+function subtotal(){
+ return cart.reduce((s,x)=>s+products[x.index].price*x.qty,0);
+}
+
+function total(){
+ return subtotal()+(cart.length?shipping:0);
+}
+
+function summaryHTML(){
+ return `<div><span>Subtotal produk</span><b>${rupiah(subtotal())}</b></div>
+ <div><span>Ongkos kirim</span><b>${rupiah(cart.length?shipping:0)}</b></div>
+ <div class="total"><span>Total pembayaran</span><span>${rupiah(total())}</span></div>`;
+}
+
+function openCart(){
+ renderCart();
+ document.getElementById("cartModal").classList.add("show");
+}
+
+function renderCart(){
+ let box=document.getElementById("cartItems");
+ if(!cart.length){
+  box.innerHTML='<div class="empty">Keranjang masih kosong 🛒<br>Yuk, pilih sepatu favoritmu!</div>';
+ }else{
+  box.innerHTML=cart.map((x,i)=>`
+  <div class="cart-item">
+   <div><p><b>${products[x.index].name}</b></p>
+   <p>Ukuran: ${x.size} | ${rupiah(products[x.index].price)}</p>
+   <div class="qty">
+    <button onclick="changeQty(${i},-1)">−</button>
+    <span>${x.qty}</span>
+    <button onclick="changeQty(${i},1)">+</button>
+   </div></div>
+   <button class="remove" onclick="removeItem(${i})">Hapus</button>
+  </div>`).join("");
+ }
+ document.getElementById("cartSummary").innerHTML=summaryHTML();
+}
+
+function changeQty(i,delta){
+ cart[i].qty+=delta;
+ if(cart[i].qty<=0)cart.splice(i,1);
+ updateCart();renderCart();
+}
+
+function removeItem(i){
+ cart.splice(i,1);updateCart();renderCart();
+}
+
+function checkout(){
+ if(!cart.length){alert("Keranjang masih kosong!");return}
+ closeModal("cartModal");
+ document.getElementById("checkoutSummary").innerHTML=summaryHTML();
+ document.getElementById("checkoutModal").classList.add("show");
+}
+
+document.querySelectorAll('input[name="payment"]').forEach(r=>{
+ r.addEventListener("change",()=>{
+  let notes={
+   "Transfer Bank BCA":"Simulasi transfer bank. Tidak ada rekening pembayaran aktif.",
+   "DANA":"Simulasi DANA. Tidak ada pembayaran atau pemotongan saldo sungguhan.",
+   "GoPay":"Simulasi GoPay. Tidak ada pembayaran atau pemotongan saldo sungguhan.",
+   "COD":"Simulasi COD. Pada transaksi nyata, pembayaran dilakukan saat pesanan diterima."
+  };
+  document.getElementById("paymentNote").textContent=notes[r.value];
+ });
+});
+
+document.getElementById("checkoutForm").addEventListener("submit",function(e){
+ e.preventDefault();
+ if(!cart.length){alert("Keranjang kosong!");return}
+ const name=document.getElementById("customerName").value.trim();
+ const phone=document.getElementById("phone").value.trim();
+ const address=document.getElementById("address").value.trim();
+ const payment=document.querySelector('input[name="payment"]:checked');
+ if(!name||!phone||!address||!payment){alert("Lengkapi semua data checkout!");return}
+
+ const orderId="ESA"+Date.now().toString().slice(-7);
+ const items=cart.map(x=>
+  `${products[x.index].name} (Ukuran ${x.size}) × ${x.qty}`
+ ).join("<br>");
+
+ document.getElementById("orderDetails").innerHTML=`
+ <b>Nomor pesanan:</b> ${orderId}<br>
+ <b>Nama:</b> ${escapeHTML(name)}<br>
+ <b>Nomor HP:</b> ${escapeHTML(phone)}<br>
+ <b>Alamat:</b> ${escapeHTML(address)}<br>
+ <b>Produk:</b><br>${items}<br>
+ <b>Metode:</b> ${payment.value}<br>
+ <b>Total:</b> ${rupiah(total())}<br>
+ <b>Status:</b> Pesanan demo dibuat`;
+ closeModal("checkoutModal");
+ document.getElementById("successModal").classList.add("show");
+});
+
+function escapeHTML(s){
+ return s.replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+}
+
+function closeModal(id){
+ document.getElementById(id).classList.remove("show");
+}
+
+function finishOrder(){
+ cart=[];
+ updateCart();
+ document.getElementById("checkoutForm").reset();
+ closeModal("successModal");
+ window.scrollTo({top:0,behavior:"smooth"});
+ renderProducts();
+}
+
+renderProducts();
+</script>
+</body>
+</html>
