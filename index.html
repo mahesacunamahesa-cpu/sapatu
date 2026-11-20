@@ -315,12 +315,15 @@ const rupiah=n=>"Rp "+n.toLocaleString("id-ID");
 
 function renderProducts(){
  let q=document.getElementById("search").value.toLowerCase();
+
  let list=products.map((p,i)=>({...p,index:i})).filter(p=>
   (category==="Semua"||p.cat===category)&&p.name.toLowerCase().includes(q)
  );
+
  let sort=document.getElementById("sort").value;
  if(sort==="low")list.sort((a,b)=>a.price-b.price);
  if(sort==="high")list.sort((a,b)=>b.price-a.price);
+
  document.getElementById("current").textContent=category;
  document.getElementById("count").textContent=list.length+" Produk";
  document.getElementById("empty").hidden=list.length>0;
@@ -332,23 +335,48 @@ function renderProducts(){
    <span class="discount">5% OFF</span>
    <span class="official">★ Official Store</span>
   </div>
+
   <div class="info">
    <h3>${p.name}</h3>
+
    <div class="old">${rupiah(p.old)}</div>
    <div class="price">${rupiah(p.price)}</div>
-   <div class="rating">★ ${p.rating} <span>| Terjual ${p.sold}</span></div>
-   <label class="size-label" for="size${p.index}">Pilih Ukuran Sepatu</label>
+
+   <div class="rating">
+    ★ ${p.rating} <span>| Terjual ${p.sold}</span>
+   </div>
+
+   <p class="product-desc">
+    ${p.description || "Sepatu Adidas original dengan desain stylish dan nyaman digunakan."}
+   </p>
+
+   <div class="available-size">
+    <b>Ukuran tersedia:</b> 36–45
+   </div>
+
+   <label class="size-label" for="size${p.index}">
+    Pilih Ukuran
+   </label>
+
    <select class="size-select" id="size${p.index}">
-    <option value="">Pilih ukuran</option>
-    ${[36,37,38,39,40,41,42,43,44,45].map(s=>`<option value="${s}">${s}</option>`).join("")}
+    <option value="">Pilih ukuran sepatu</option>
+    ${[36,37,38,39,40,41,42,43,44,45].map(s=>
+     `<option value="${s}">${s}</option>`
+    ).join("")}
    </select>
+
    <div class="actions">
-    <button class="add" onclick="addCart(${p.index})">🛒</button>
-    <button class="buy" onclick="buyNow(${p.index})">Beli</button>
+    <button class="add" onclick="addCart(${p.index})">
+     🛒 Keranjang
+    </button>
+
+    <button class="buy" onclick="buyNow(${p.index})">
+     BELI SEKARANG
+    </button>
    </div>
   </div>
  </article>`).join("");
-}
+ }
 
 function filter(cat,btn){
  category=cat;
@@ -361,17 +389,17 @@ function filter(cat,btn){
 
 function addCart(i){
  let size=document.getElementById("size"+i).value;
- if(!size){alert("Pilih ukuran sepatu terlebih dahulu, ya!");return}
+ if(!size){showPopup("Pilih ukuran sepatu terlebih dahulu, ya!");return}
  let existing=cart.find(x=>x.index===i&&x.size===size);
  if(existing)existing.qty++;
  else cart.push({index:i,size,qty:1});
  updateCart();
- alert(products[i].name+" ukuran "+size+" berhasil ditambahkan ke keranjang!");
+ showPopup(products[i].name+" ukuran "+size+" berhasil ditambahkan ke keranjang!");
 }
 
 function buyNow(i){
  let size=document.getElementById("size"+i).value;
- if(!size){alert("Pilih ukuran sepatu terlebih dahulu, ya!");return}
+ if(!size){showPopup("Pilih ukuran sepatu terlebih dahulu, ya!");return}
  let existing=cart.find(x=>x.index===i&&x.size===size);
  if(existing)existing.qty++;
  else cart.push({index:i,size,qty:1});
@@ -433,7 +461,7 @@ function removeItem(i){
 }
 
 function checkout(){
- if(!cart.length){alert("Keranjang masih kosong!");return}
+ if(!cart.length){showPopup("Keranjang masih kosong!");return}
  closeModal("cartModal");
  document.getElementById("checkoutSummary").innerHTML=summaryHTML();
  document.getElementById("checkoutModal").classList.add("show");
@@ -453,12 +481,12 @@ document.querySelectorAll('input[name="payment"]').forEach(r=>{
 
 document.getElementById("checkoutForm").addEventListener("submit",function(e){
  e.preventDefault();
- if(!cart.length){alert("Keranjang kosong!");return}
+ if(!cart.length){showPopup("Keranjang kosong!");return}
  const name=document.getElementById("customerName").value.trim();
  const phone=document.getElementById("phone").value.trim();
  const address=document.getElementById("address").value.trim();
  const payment=document.querySelector('input[name="payment"]:checked');
- if(!name||!phone||!address||!payment){alert("Lengkapi semua data checkout!");return}
+ if(!name||!phone||!address||!payment){showPopup("Lengkapi semua data checkout!");return}
 
  const orderId="ESA"+Date.now().toString().slice(-7);
  const items=cart.map(x=>
