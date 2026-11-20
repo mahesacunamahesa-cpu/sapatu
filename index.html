@@ -113,65 +113,71 @@ footer p{color:#d5dce7;line-height:1.8;margin-top:9px}
  .modal-content{padding:17px}
  .payment-options{grid-template-columns:1fr}
         }
- document.getElementById("checkoutForm").addEventListener("submit", function(e) {
-  e.preventDefault();
+ .product-desc{
+  font-size:13px;
+  line-height:1.6;
+  color:#64748b;
+  margin:10px 0;
+}
 
-  if (!cart.length) {
-    alert("Keranjang kosong!");
-    return;
-  }
+.available-size{
+  font-size:12px;
+  color:#182A46;
+  margin:10px 0;
+}
 
-  const name = document.getElementById("customerName").value.trim();
-  const phone = document.getElementById("phone").value.trim();
-  const address = document.getElementById("address").value.trim();
-  const payment = document.querySelector('input[name="payment"]:checked');
+.detail-btn{
+  width:100%;
+  padding:10px;
+  margin-top:7px;
+  background:#edf2f8;
+  color:#182A46;
+  border:1px solid #d8e0eb;
+  border-radius:5px;
+  font-weight:bold;
+}
 
-  if (!name || !phone || !address || !payment) {
-    alert("Lengkapi semua data checkout!");
-    return;
-  }
+.popup-notif{
+  position:fixed;
+  top:20px;
+  left:50%;
+  transform:translate(-50%,-20px);
+  background:#182A46;
+  color:white;
+  padding:13px 20px;
+  border-radius:10px;
+  opacity:0;
+  visibility:hidden;
+  transition:.3s;
+  z-index:999;
+}
 
-  const orderId = "ESA" + Date.now().toString().slice(-7);
+.popup-notif.show{
+  opacity:1;
+  visibility:visible;
+  transform:translate(-50%,0);
+}
 
-  const items = cart.map(x =>
-    `${products[x.index].name} (Ukuran ${x.size}) x ${x.qty}`
-  ).join("\n");
+.cart.bump{
+  animation:cartBump .4s ease;
+}
 
-  const message =
-`HALO ESAXEN! SAYA INGIN MEMESAN SEPATU.
+@keyframes cartBump{
+  50%{transform:scale(1.2)}
+}
 
-Nomor Pesanan: ${orderId}
-Nama: ${name}
-Nomor HP: ${phone}
-Alamat: ${address}
-
-Produk:
-${items}
-
-Metode Pembayaran: ${payment.value}
-Total: ${rupiah(total())}
-
-Mohon konfirmasi pesanan saya. Terima kasih!`;
-
-  document.getElementById("orderDetails").innerHTML = `
-    <b>Nomor pesanan:</b> ${orderId}<br>
-    <b>Nama:</b> ${escapeHTML(name)}<br>
-    <b>Nomor HP:</b> ${escapeHTML(phone)}<br>
-    <b>Alamat:</b> ${escapeHTML(address)}<br>
-    <b>Produk:</b><br>${items.replace(/\n/g, "<br>")}<br>
-    <b>Metode:</b> ${escapeHTML(payment.value)}<br>
-    <b>Total:</b> ${rupiah(total())}<br>
-    <b>Status:</b> Menunggu konfirmasi WhatsApp
-  `;
-
-  closeModal("checkoutModal");
-  document.getElementById("successModal").classList.add("show");
-
-  const whatsappURL =
-    "https://wa.me/6283879833077?text=" + encodeURIComponent(message);
-
-  window.open(whatsappURL, "_blank");
-});    
+.wa-float{
+  position:fixed;
+  bottom:18px;
+  right:18px;
+  background:#176b45;
+  color:white;
+  padding:13px 18px;
+  border-radius:30px;
+  text-decoration:none;
+  font-weight:bold;
+  z-index:10;
+}
 </style>
 </head>
 <body>
@@ -232,7 +238,13 @@ Mohon konfirmasi pesanan saya. Terima kasih!`;
 <p>Toko sepatu casual untuk gaya sehari-hari.</p>
 <p>© 2026 ESAXEN Official Store</p>
 </footer>
+<a class="wa-float"
+href="https://wa.me/6283879833077"
+target="_blank">
+WhatsApp Admin
+</a>
 
+<div id="popupNotif" class="popup-notif"></div>
 <!-- KERANJANG -->
 <div class="modal" id="cartModal">
 <div class="modal-content">
@@ -291,7 +303,13 @@ Mohon konfirmasi pesanan saya. Terima kasih!`;
 <h2>Pesanan Berhasil Dibuat!</h2>
 <p id="orderDetails"></p>
 <div class="note">Demo tugas sekolah: pesanan hanya tersimpan selama halaman ini digunakan. Belum ada pembayaran uang sungguhan, pengiriman, atau konfirmasi otomatis dari bank/e-wallet.</div>
-<button class="full" onclick="finishOrder()">Kembali Belanja</button>
+<button class="full" onclick="sendWhatsAppOrder()">
+Kirim Pesanan ke WhatsApp
+</button>
+
+<button class="full" onclick="finishOrder()">
+Kembali Belanja
+</button>
 </div>
 </div>
 </div>
@@ -312,7 +330,20 @@ let category="Semua";
 let cart=[];
 const shipping=15000;
 const rupiah=n=>"Rp "+n.toLocaleString("id-ID");
+let popupTimer;
 
+function showPopup(message){
+ const popup=document.getElementById("popupNotif");
+
+ popup.textContent=message;
+ popup.classList.add("show");
+
+ clearTimeout(popupTimer);
+
+ popupTimer=setTimeout(()=>{
+  popup.classList.remove("show");
+ },2500);
+ }
 function renderProducts(){
  let q=document.getElementById("search").value.toLowerCase();
 
@@ -375,8 +406,8 @@ function renderProducts(){
     </button>
    </div>
   </div>
- </article>`).join("");
- }
+  </article>`).join("");
+}
 
 function filter(cat,btn){
  category=cat;
@@ -399,12 +430,18 @@ function addCart(i){
 
 function buyNow(i){
  let size=document.getElementById("size"+i).value;
- if(!size){showPopup("Pilih ukuran sepatu terlebih dahulu, ya!");return}
- let existing=cart.find(x=>x.index===i&&x.size===size);
- if(existing)existing.qty++;
- else cart.push({index:i,size,qty:1});
+
+ if(!size){
+  showPopup("Pilih ukuran sepatu terlebih dahulu!");
+  return;
+ }
+
+ cart=[{index:i,size,qty:1}];
  updateCart();
- openCart();
+
+ document.getElementById("checkoutSummary").innerHTML=summaryHTML();
+ closeModal("cartModal");
+ document.getElementById("checkoutModal").classList.add("show");
 }
 
 function updateCart(){
@@ -489,6 +526,24 @@ document.getElementById("checkoutForm").addEventListener("submit",function(e){
  if(!name||!phone||!address||!payment){showPopup("Lengkapi semua data checkout!");return}
 
  const orderId="ESA"+Date.now().toString().slice(-7);
+ const itemsWA=cart.map(x =>
+ `${products[x.index].name} (Ukuran ${x.size}) x ${x.qty}`
+).join("\n");
+
+const message=`HALO ESAXEN! SAYA INGIN MEMESAN SEPATU.
+
+Nomor Pesanan: ${orderId}
+Nama: ${name}
+Nomor HP: ${phone}
+Alamat: ${address}
+Produk:
+${itemsWA}
+Metode Pembayaran: ${payment.value}
+Total: ${rupiah(total())}
+
+Mohon konfirmasi pesanan saya.`;
+
+whatsappOrderURL="https://wa.me/6283879833077?text="+encodeURIComponent(message);
  const items=cart.map(x=>
   `${products[x.index].name} (Ukuran ${x.size}) × ${x.qty}`
  ).join("<br>");
@@ -505,8 +560,14 @@ document.getElementById("checkoutForm").addEventListener("submit",function(e){
  closeModal("checkoutModal");
  document.getElementById("successModal").classList.add("show");
 });
+let whatsappOrderURL="";
 
-function escapeHTML(s){
+function sendWhatsAppOrder(){
+ if(!whatsappOrderURL)return;
+ window.open(whatsappOrderURL,"_blank");
+}
+
+ function escapeHTML(s){
  return s.replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 }
 
