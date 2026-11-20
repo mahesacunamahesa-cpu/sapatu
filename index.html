@@ -14,7 +14,7 @@
  --bg:#F2F4F7;
  --grey:#4B5563;
 }
-body{font-family:Arial,sans-serif;background:var(--bg);color:#292d35}
+body{background:var(--bg);color:#292d35}
 button,input,select,textarea{font:inherit}
 button{cursor:pointer}
 header{background:var(--navy);color:white;padding:18px 4%;display:flex;align-items:center;justify-content:space-between;gap:15px;position:sticky;top:0;z-index:5;box-shadow:0 3px 10px #0002}
@@ -316,26 +316,26 @@ Kembali Belanja
 
 <script>
 const products = [
-{name:"Adidas Superstar II Papua",cat:"Sneakers",price:2090000,old:2200000,img:"sepatu1.jpg",rating:4.9,sold:120},
-{name:"Adidas Adizero Evo SL Powder Plum",cat:"Running",price:2375000,old:2500000,img:"sepatu2.jpg",rating:4.9,sold:95},
-{name:"Adidas Adizero Adios Pro 4",cat:"Running",price:3800000,old:4000000,img:"sepatu3.jpg",rating:5.0,sold:80},
-{name:"Adidas x Coca-Cola Samba OG",cat:"Samba",price:2185000,old:2300000,img:"sepatu4.jpg",rating:4.9,sold:110},
-{name:"Adidas Daily 4.0 Burgundy",cat:"Casual",price:1045000,old:1100000,img:"sepatu5.jpg",rating:4.8,sold:75},
-{name:"Bad Bunny x Adidas Gazelle Indoor Solar Gold",cat:"Gazelle",price:1995000,old:2100000,img:"sepatu6.jpg",rating:4.9,sold:90},
-{name:"Adidas Runvista Black Metallic",cat:"Sneakers",price:855000,old:900000,img:"sepatu7.jpg",rating:4.8,sold:65},
-{name:"Adidas Handball Spezial Grey Strata",cat:"Spezial",price:1710000,old:1800000,img:"sepatu8.jpg",rating:4.9,sold:100},
-{name:"Adidas Handball Spezial Grey Strata",cat:"Sneakers",price:1710000,old:1800000,img:"sepatu9.jpg",rating:4.9,sold:100},
-{name:"Adidas Adizero Adios Pro 4",cat:"Running",price:3800000,old:4000000,img:"sepatu10.jpg",rating:5.0,sold:80},
-{name:"Adidas x Coca-Cola Samba OG",cat:"Samba",price:2185000,old:2300000,img:"sepatu11.jpg",rating:4.9,sold:110},
-{name:"Adidas Daily 4.0 Burgundy",cat:"Casual",price:1045000,old:1100000,img:"sepatu12.jpg",rating:4.8,sold:75},
-{name:"Bad Bunny x Adidas Gazelle Indoor Solar Gold",cat:"Gazelle",price:1995000,old:2100000,img:"sepatu13.jpg",rating:4.9,sold:90},
-{name:"Adidas Runvista Black Metallic",cat:"Sneakers",price:855000,old:900000,img:"sepatu14.jpg",rating:4.8,sold:65},
-{name:"Adidas Handball Spezial Grey Strata",cat:"Spezial",price:1710000,old:1800000,img:"sepatu15.jpg",rating:4.9,sold:100},
-{name:"Adidas Handball Spezial Grey Strata",cat:"Sneakers",price:1710000,old:1800000,img:"sepatu16.jpg",rating:4.9,sold:100},
-{name:"Adidas Handball Spezial Grey Strata",cat:"Sneakers",price:1710000,old:1800000,img:"sepatu17.jpg",rating:4.9,sold:100},
-{name:"Adidas Handball Spezial Grey Strata",cat:"Spezial",price:1710000,old:1800000,img:"sepatu18.jpg",rating:4.9,sold:100},
-{name:"Adidas Handball Spezial Grey Strata",cat:"Sneakers",price:1710000,old:1800000,img:"sepatu19.jpg",rating:4.9,sold:100},
-{name:"Adidas Handball Spezial Grey Strata",cat:"Sneakers",price:1710000,old:1800000,img:"sepatu20.jpg",rating:4.9,sold:100},
+{name:"Adidas Handball Spezial Grey Strata",cat:"Spezial",price:1805000,old:1900000,img:"sepatu1.jpg",rating:4.9,sold:120},
+{name:"Adidas Runvista Black Metallic",cat:"Sneakers",price:855000,old:900000,img:"sepatu2.jpg",rating:4.9,sold:95},
+{name:"Bad Bunny x Adidas Forum Low Solar Gold",cat:"Gazelle",price:3086550,old:3249000,img:"sepatu3.jpg",rating:5.0,sold:80},
+{name:"Adidas Daily 4.0 Burgundy",cat:"Casual",price:1045000,old:1100000,img:"sepatu4.jpg",rating:4.9,sold:110},
+{name:"Adidas Samba OG x Coca-Cola",cat"Samba",price:2185000,old:2300000,img:"sepatu5.jpg",rating:4.8,sold:75},
+{name:"Adidas Adizero Adios Pro 4",cat:"Running",price:3800000,old:4000000,img:"sepatu6.jpg",rating:4.9,sold:90},
+{name:"Adidas Adizero Evo SL Powder Plum",cat:"Running",price:2137000,old:225000,img:"sepatu7.jpg",rating:4.8,sold:65},
+{name:"Adidas Superstar II Papua",cat:"Sneakers",price:1805000,old:1900000,img:"sepatu8.jpg",rating:4.9,sold:100},
+{name:"Adidas Handball Spezial Black Blue",cat:"Spezial",price:1805000,old:1900000,img:"sepatu9.jpg",rating:4.9,sold:100},
+{name:"Adidas Handball Spezial Pink",cat:"Spezial",price:1805000,old:1900000,img:"sepatu10.jpg",rating:5.0,sold:80},
+{name:"Adidas Grand Court 2.0 (Hitam / Putih)",cat:"Casual",price:1235000,old:1300000,img:"sepatu11.jpg",rating:4.9,sold:110},
+{name:"Adidas VL Court Base (Putih / Biru Gelap / Sol Gum)",cat:"Casual",price:855000,old:900000,img:"sepatu12.jpg",rating:4.8,sold:75},
+{name:"Adidas Handball Spezial Light Blue White Gum",cat:"Spezial",price1805000:,old:1900000,img:"sepatu13.jpg",rating:4.9,sold:90},
+{name:"Adidas Running Galaxy",cat:"Running",price:8007500,old:8500000,img:"sepatu14.jpg",rating:4.8,sold:65},
+{name:"Adidas Adizero Prime X3 Strung",cat:"Running",price:5320000,old:5600000,img:"sepatu15.jpg",rating:4.9,sold:100},
+{name:"Adidas Forum Low CL",cat:"Sneakers",price:1710000,old:1800000,img:"sepatu16.jpg",rating:4.9,sold:100},
+{name:"Adidas x C.P. Company Manchester SPZL (Light Blue / Red / Navy)",cat:"Spezial",price:5225000,old:5500000,img:"sepatu17.jpg",rating:4.9,sold:100},
+{name:"Adidas Shanghai City Series Purple Burst",cat:"Sneakers",price:6175000,old:6500000,img:"sepatu18.jpg",rating:4.9,sold:100},
+{name:"Adidas Samba OG (Burgundy / Gold Rhinestone / Gum Sole)",cat:"Samba",price:4465000,old:4700000,img:"sepatu19.jpg",rating:4.9,sold:100},
+{name:"Adidas Samba OG (Metallic / Black / Gum Sole)",cat:"Samba",price:2850000,old:3000000,img:"sepatu20.jpg",rating:4.9,sold:100},
  ];
 
 let category="Semua";
