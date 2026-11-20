@@ -113,7 +113,65 @@ footer p{color:#d5dce7;line-height:1.8;margin-top:9px}
  .modal-content{padding:17px}
  .payment-options{grid-template-columns:1fr}
         }
-     
+ document.getElementById("checkoutForm").addEventListener("submit", function(e) {
+  e.preventDefault();
+
+  if (!cart.length) {
+    alert("Keranjang kosong!");
+    return;
+  }
+
+  const name = document.getElementById("customerName").value.trim();
+  const phone = document.getElementById("phone").value.trim();
+  const address = document.getElementById("address").value.trim();
+  const payment = document.querySelector('input[name="payment"]:checked');
+
+  if (!name || !phone || !address || !payment) {
+    alert("Lengkapi semua data checkout!");
+    return;
+  }
+
+  const orderId = "ESA" + Date.now().toString().slice(-7);
+
+  const items = cart.map(x =>
+    `${products[x.index].name} (Ukuran ${x.size}) x ${x.qty}`
+  ).join("\n");
+
+  const message =
+`HALO ESAXEN! SAYA INGIN MEMESAN SEPATU.
+
+Nomor Pesanan: ${orderId}
+Nama: ${name}
+Nomor HP: ${phone}
+Alamat: ${address}
+
+Produk:
+${items}
+
+Metode Pembayaran: ${payment.value}
+Total: ${rupiah(total())}
+
+Mohon konfirmasi pesanan saya. Terima kasih!`;
+
+  document.getElementById("orderDetails").innerHTML = `
+    <b>Nomor pesanan:</b> ${orderId}<br>
+    <b>Nama:</b> ${escapeHTML(name)}<br>
+    <b>Nomor HP:</b> ${escapeHTML(phone)}<br>
+    <b>Alamat:</b> ${escapeHTML(address)}<br>
+    <b>Produk:</b><br>${items.replace(/\n/g, "<br>")}<br>
+    <b>Metode:</b> ${escapeHTML(payment.value)}<br>
+    <b>Total:</b> ${rupiah(total())}<br>
+    <b>Status:</b> Menunggu konfirmasi WhatsApp
+  `;
+
+  closeModal("checkoutModal");
+  document.getElementById("successModal").classList.add("show");
+
+  const whatsappURL =
+    "https://wa.me/6283879833077?text=" + encodeURIComponent(message);
+
+  window.open(whatsappURL, "_blank");
+});    
 </style>
 </head>
 <body>
