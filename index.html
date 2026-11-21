@@ -319,26 +319,45 @@ Kembali Belanja
 
 <script>
 const products = [
-{name:"Adidas Handball Spezial Grey Strata",cat:"Spezial",price:1805000,old:1900000,img:"sepatu1.jpg",rating:4.9,sold:120},
-{name:"Adidas Runvista Black Metallic",cat:"Sneakers",price:855000,old:900000,img:"sepatu2.jpg",rating:4.9,sold:95},
-{name:"Bad Bunny x Adidas Forum Low Solar Gold",cat:"Gazelle",price:3086550,old:3249000,img:"sepatu3.jpg",rating:5.0,sold:80},
-{name:"Adidas Daily 4.0 Burgundy",cat:"Casual",price:1045000,old:1100000,img:"sepatu4.jpg",rating:4.9,sold:110},
-{name:"Adidas Samba OG x Coca-Cola",cat:"Samba",price:2185000,old:2300000,img:"sepatu5.jpg",rating:4.8,sold:75},
-{name:"Adidas Adizero Adios Pro 4",cat:"Running",price:3800000,old:4000000,img:"sepatu6.jpg",rating:4.9,sold:90},
-{name:"Adidas Adizero Evo SL Powder Plum",cat:"Running",price:2137000,old:2250000,img:"sepatu7.jpg",rating:4.8,sold:65},
-{name:"Adidas Superstar II Papua",cat:"Sneakers",price:1805000,old:1900000,img:"sepatu8.jpg",rating:4.9,sold:100},
-{name:"Adidas Handball Spezial Black Blue",cat:"Spezial",price:1805000,old:1900000,img:"sepatu9.jpg",rating:4.9,sold:100},
-{name:"Adidas Handball Spezial Pink",cat:"Spezial",price:1805000,old:1900000,img:"sepatu10.jpg",rating:5.0,sold:80},
-{name:"Adidas Grand Court 2.0 (Hitam / Putih)",cat:"Casual",price:1235000,old:1300000,img:"sepatu11.jpg",rating:4.9,sold:110},
-{name:"Adidas VL Court Base (Putih / Biru Gelap / Sol Gum)",cat:"Casual",price:855000,old:900000,img:"sepatu12.jpg",rating:4.8,sold:75},
-{name:"Adidas Handball Spezial Light Blue White Gum",cat:"Spezial",price:1805000,old:1900000,img:"sepatu13.jpg",rating:4.9,sold:90},
-{name:"Adidas Running Galaxy",cat:"Running",price:8007500,old:8500000,img:"sepatu14.jpg",rating:4.8,sold:65},
-{name:"Adidas Adizero Prime X3 Strung",cat:"Running",price:5320000,old:5600000,img:"sepatu15.jpg",rating:4.9,sold:100},
-{name:"Adidas Forum Low CL",cat:"Sneakers",price:1710000,old:1800000,img:"sepatu16.jpg",rating:4.9,sold:100},
-{name:"Adidas x C.P. Company Manchester SPZL (Light Blue / Red / Navy)",cat:"Spezial",price:5225000,old:5500000,img:"sepatu17.jpg",rating:4.9,sold:100},
-{name:"Adidas Shanghai City Series Purple Burst",cat:"Sneakers",price:6175000,old:6500000,img:"sepatu18.jpg",rating:4.9,sold:100},
-{name:"Adidas Samba OG (Burgundy / Gold Rhinestone / Gum Sole)",cat:"Samba",price:4465000,old:4700000,img:"sepatu19.jpg",rating:4.9,sold:100},
-{name:"Adidas Samba OG (Metallic / Black / Gum Sole)",cat:"Samba",price:2850000,old:3000000,img:"sepatu20.jpg",rating:4.9,sold:100},
+{name:"Adidas Handball Spezial Grey Strata",cat:"Spezial",price:1805000,old:1900000,img:"sepatu1.jpg",rating:4.9,sold:120,description:"Sepatu bergaya retro dengan warna abu-abu elegan dan nyaman dipakai sehari-hari."},
+{name:"Adidas Runvista Black Metallic",cat:"Sneakers",price:855000,old:900000,img:"sepatu2.jpg",rating:4.9,sold:95,description:"Sneakers dengan tampilan hitam dan sentuhan metallic yang memberikan kesan modern. Mudah dipadukan dengan berbagai gaya pakaian."
+  },
+{name:"Bad Bunny x Adidas Forum Low Solar Gold",cat:"Gazelle",price:3086550,old:3249000,img:"sepatu3.jpg",rating:5.0,sold:80,description:"Kolaborasi Bad Bunny dan Adidas dengan tampilan Solar Gold yang mencolok. Memiliki desain unik untuk kamu yang menyukai gaya berbeda."
+  },
+{name:"Adidas Daily 4.0 Burgundy",cat:"Casual",price:1045000,old:1100000,img:"sepatu4.jpg",rating:4.9,sold:110,description:"Sepatu kasual dengan warna Burgundy yang memberikan kesan simpel dan stylish. Cocok digunakan untuk kegiatan santai sehari-hari."
+  },
+{name:"Adidas Samba OG x Coca-Cola",cat:"Samba",price:2185000,old:2300000,img:"sepatu5.jpg",rating:4.8,sold:75,description:"Kolaborasi Adidas Samba OG dan Coca-Cola dengan desain khas yang menarik. Pilihan tepat untuk penggemar sneakers dan koleksi kolaborasi."
+  },
+{name:"Adidas Adizero Adios Pro 4",cat:"Running",price:3800000,old:4000000,img:"sepatu6.jpg",rating:4.9,sold:90,description:"Sepatu running berdesain sporty yang dirancang untuk mendukung aktivitas lari. Memiliki tampilan modern dan cocok untuk penggemar olahraga."
+  },
+{name:"Adidas Adizero Evo SL Powder Plum",cat:"Running",price:2137000,old:2250000,img:"sepatu7.jpg",rating:4.8,sold:65,description:"Sepatu running dengan warna Powder Plum yang memberikan tampilan segar dan modern. Cocok untuk latihan lari maupun aktivitas olahraga."
+  },
+{name:"Adidas Superstar II Papua",cat:"Sneakers",price:1805000,old:1900000,img:"sepatu8.jpg",rating:4.9,sold:100,description:"Adidas Superstar II dengan karakter desain klasik yang ikonik. Cocok untuk melengkapi gaya streetwear maupun outfit kasual."
+  },
+{name:"Adidas Handball Spezial Black Blue",cat:"Spezial",price:1805000,old:1900000,img:"sepatu9.jpg",rating:4.9,sold:100,description:"Handball Spezial dengan kombinasi warna hitam dan biru yang terlihat sporty. Desain retro membuatnya cocok untuk berbagai gaya kasual."
+  },
+{name:"Adidas Handball Spezial Pink",cat:"Spezial",price:1805000,old:1900000,img:"sepatu10.jpg",rating:5.0,sold:80,description:"Handball Spezial dengan pilihan warna pink yang memberikan kesan cerah dan menarik. Cocok untuk kamu yang ingin tampil kasual dengan sentuhan warna."
+  },
+{name:"Adidas Grand Court 2.0 (Hitam / Putih)",cat:"Casual",price:1235000,old:1300000,img:"sepatu11.jpg",rating:4.9,sold:110,description:"Sepatu kasual dengan perpaduan warna hitam dan putih yang klasik. Desainnya sederhana sehingga mudah dipadukan dengan berbagai outfit."
+  },
+{name:"Adidas VL Court Base (Putih / Biru Gelap / Sol Gum)",cat:"Casual",price:855000,old:900000,img:"sepatu12.jpg",rating:4.8,sold:75,description:"VL Court Base dengan kombinasi putih, biru gelap, dan sol gum. Memiliki tampilan kasual yang simpel untuk menemani kegiatan sehari-hari."
+  },
+{name:"Adidas Handball Spezial Light Blue White Gum",cat:"Spezial",price:1805000,old:1900000,img:"sepatu13.jpg",rating:4.9,sold:90,description:"Handball Spezial dengan warna biru muda, putih, dan sol gum. Perpaduan warnanya memberikan kesan bersih dan klasik."
+  },
+{name:"Adidas Running Galaxy",cat:"Running",price:8007500,old:8500000,img:"sepatu14.jpg",rating:4.8,sold:65,description:"Sepatu Adidas seri Galaxy dengan desain sporty untuk aktivitas olahraga. Tampilannya cocok bagi penggemar gaya aktif dan kasual."
+  },
+{name:"Adidas Adizero Prime X3 Strung",cat:"Running",price:5320000,old:5600000,img:"sepatu15.jpg",rating:4.9,sold:100,description:"Sepatu running dari lini Adizero dengan teknologi upper Strung. Dirancang untuk kebutuhan lari dengan desain yang terlihat futuristik."
+  },
+{name:"Adidas Forum Low CL",cat:"Sneakers",price:1710000,old:1800000,img:"sepatu16.jpg",rating:4.9,sold:100,description:"Forum Low CL menghadirkan gaya basket klasik dalam bentuk sneakers kasual. Cocok untuk tampilan streetwear yang santai dan modern."
+  },
+{name:"Adidas x C.P. Company Manchester SPZL (Light Blue / Red / Navy)",cat:"Spezial",price:5225000,old:5500000,img:"sepatu17.jpg",rating:4.9,sold:100,description:"Kolaborasi Adidas dan C.P. Company dengan kombinasi warna Light Blue, Red, dan Navy. Memiliki karakter desain khas yang menarik untuk koleksi sneakers."
+  },
+{name:"Adidas Shanghai City Series Purple Burst",cat:"Sneakers",price:6175000,old:6500000,img:"sepatu18.jpg",rating:4.9,sold:100,description:"Bagian dari City Series Adidas dengan warna Purple Burst yang unik. Menghadirkan nuansa klasik dengan tampilan yang berbeda."
+  },
+{name:"Adidas Samba OG (Burgundy / Gold Rhinestone / Gum Sole)",cat:"Samba",price:4465000,old:4700000,img:"sepatu19.jpg",rating:4.9,sold:100,description:"Samba OG dengan perpaduan Burgundy, detail Gold Rhinestone, dan sol gum. Memberikan tampilan klasik dengan sentuhan dekoratif yang menonjol."
+  },
+{name:"Adidas Samba OG (Metallic / Black / Gum Sole)",cat:"Samba",price:2850000,old:3000000,img:"sepatu20.jpg",rating:4.9,sold:100,description:"Samba OG dengan kombinasi warna Metallic, hitam, dan sol gum. Desain ikoniknya cocok untuk melengkapi gaya kasual maupun streetwear."
+ }
  ];
 
 let category="Semua";
